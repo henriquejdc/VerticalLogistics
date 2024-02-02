@@ -1,32 +1,41 @@
 ### Logistics System RestAPI
 **Abordagem:** 
 
-[//]: # (Utilizado um projeto meu de base acrescentando a)
+Utilizado o Django Rest Framework para a criação de um sistema de logística de pedidos.
 
-[//]: # (o app e o viewset Coupon &#40;Cupom&#41; onde o POST /vl/)
+Criado os objetos em banco **postgreSQL**:
 
-[//]: # (trata-se da criação do cupom e o POST )
+**UserVL** 
+- user_id
+- name
 
-[//]: # (/vl/use_vl/ trata-se da utilização do cupom.)
+**Product** 
+- product_id
+- value
+
+**Order** 
+- order_id
+- date
+- user (UserVL)
+- product (Product)
+
+O total de cada pedido é calculado a partir da soma dos valores dos produtos.
+
+Criado o app logistics e o viewset OrderViewSet (Order) onde:
+
+- POST /v1/orders-by-user/ que recebe o arquivo .txt criando os objetos em banco
+- GET /v1/orders-by-user/ que retorna os pedidos agrupados por usuário
+- GET /v1/orders-by-user/{order_id}/ que retorna os pedido agrupado pelo usuário
 
 **Por que desta abordagem?**
 
-[//]: # (Acredito que um cupom não seja apenas um ID inteiro,)
+**Por que usei o Django Rest?** Utilizei está abordaggem pelo meu conhecimento em Django Rest
 
-[//]: # (caso fosse poderia tratar-se com o próprio POST de criação)
+e por já ter um projeto base para a criação de sistemas com autenticação, base de viewset e testes.
 
-[//]: # (e o PUT para sua utilização/atualização.)
+**Por que usei o postgreSQL?** Por ser um banco de dados robusto e que suporta grande quantidade de dados, 
 
-[//]: # ()
-[//]: # (Entretanto, acredito que um cupom possa ser várias letras)
-
-[//]: # (e números, podendo em caso de ser utilizado como chave primária)
-
-[//]: # (prejudicar consultas e performance.)
-
-[//]: # (Também, deixaria exposto o cupom como chave ao ser utilizado)
-
-[//]: # (no navegador.)
+além de que é facilmente integrado ao Django e possui suporte para consultar com filtros e ordenação.
 
 
 ### Environment: 
@@ -37,12 +46,8 @@ OR
 virtualenv --python=python3 venv
 
 source venv/bin/activate
-```
 
-
-### Requirements: 
-```
-pip install -r requirements.txt
+cd src/django/
 ```
 
 
@@ -66,6 +71,12 @@ Use variables with the same names as you use when creating the database
 ```
 
 
+### Requirements: 
+```
+pip install -r requirements.txt
+```
+
+
 ### Migration: 
 ```
 python manage.py migrate
@@ -84,18 +95,18 @@ python manage.py runserver
 ```
 
 
+### Documentation: 
+```
+/docs
+/docs/redoc
+```
+
+
 ### Create Super User / Login: 
 ```
 python manage.py createsuperuser 
 
 To login use email and password
-```
-
-
-### Docs: 
-```
-/docs
-/docs/redoc
 ```
 
 

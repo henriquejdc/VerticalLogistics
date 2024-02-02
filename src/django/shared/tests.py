@@ -1,17 +1,21 @@
 # Base imports
 import copy
 import json
+import io
 from typing import List
 
 # Django imports
+from django.core.files.base import File
 from django.db import transaction
 
 # Third party imports
+from PIL import Image
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.test import APITestCase
 from rest_framework_simplejwt.tokens import RefreshToken
 
+# Project imports
 from authentication.models import User
 
 
@@ -397,3 +401,11 @@ class BaseAPITestCase(APITestCase):
                 'description': self.http_404_error_description
             }
         )
+
+    def create_mock_image_file(self, name, extention, color, size=10):
+        """ Create a mock image for api requests tests. """
+        file_obj = io.BytesIO()
+        image = Image.new(color, size=(size, size))
+        image.save(file_obj, extention)
+        file_obj.seek(0)
+        return File(file_obj, name=name)

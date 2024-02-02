@@ -1,5 +1,5 @@
 """
-WSGI config for logisticsProject project.
+WSGI config for vertical_logistics project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'logisticsProject.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'vertical_logistics.settings')
 
 application = get_wsgi_application()

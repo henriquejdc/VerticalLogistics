@@ -6,9 +6,9 @@ from drf_yasg.views import get_schema_view
 
 schema_view = get_schema_view(
    openapi.Info(
-      title="Coupon Rest API",
+      title="Logistics Rest API",
       default_version='v1',
-      description="Coupon Rest API",
+      description="Logistics Rest API",
       terms_of_service="https://www.google.com/policies/terms/",
       contact=openapi.Contact(email="riquejdc@gmail.com"),
    ),

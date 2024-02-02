@@ -13,7 +13,10 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserVL
-        fields = '__all__'
+        fields = (
+            'user_id',
+            'name',
+        )
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -22,7 +25,10 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = '__all__'
+        fields = (
+            'product_id',
+            'value',
+        )
 
     def get_value(self, obj) -> str:
         return str(obj.value)
@@ -44,7 +50,7 @@ class OrderSerializer(serializers.ModelSerializer):
         )
 
     def get_total(self, obj) -> str:
-        return str(obj.product.all().aggregate(total=Sum('value'))['total'])
+        return str(round(obj.product.all().aggregate(total=Sum('value'))['total'], 2))
 
 
 class OrderSerializerResponse(serializers.ModelSerializer):

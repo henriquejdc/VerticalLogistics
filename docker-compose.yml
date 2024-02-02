@@ -1,0 +1,13 @@
+version: '3.7'
+
+services:
+  vertical_logistics:
+    build:
+      context: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./vertical_logistics
+    command: sh -c "python manage.py runserver 0.0.0.0:8000"
+    environment:
+      - DJANGO_SETTINGS_MODULE=vertical_logistics.settings

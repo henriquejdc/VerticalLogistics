@@ -77,7 +77,7 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
-ROOT_URLCONF = 'logisticsProject.urls'
+ROOT_URLCONF = 'vertical_logistics.urls'
 
 TEMPLATES = [
     {
@@ -95,7 +95,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'logisticsProject.wsgi.application'
+WSGI_APPLICATION = 'vertical_logistics.wsgi.application'
 
 DATABASES = {
     'default': {

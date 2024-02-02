@@ -93,7 +93,7 @@ class OrderViewSet(BaseCollectionViewSet):
         try:
             instance = self.get_object()
             user_data = UserSerializer(instance.user).data
-            user_data['orders'] = OrderSerializer(instance).data
+            user_data['orders'] = [OrderSerializer(instance).data]
             return Response(user_data)
         except Http404 as exception:
             return not_found_response(exception)
