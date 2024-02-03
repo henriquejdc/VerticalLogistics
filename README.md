@@ -38,6 +38,16 @@ e por já ter um projeto base para a criação de sistemas com autenticação, b
 além de que é facilmente integrado ao Django e possui suporte para consultar com filtros e ordenação.
 
 
+### Docker:
+```
+First use:
+sudo docker-compose up --build django
+
+Next uses:
+sudo docker-compose up django
+```
+
+
 ### Environment: 
 Python Version 3.8.10
 ```
@@ -47,7 +57,7 @@ virtualenv --python=python3 venv
 
 source venv/bin/activate
 
-cd src/django/
+cd django/
 ```
 
 
@@ -107,6 +117,8 @@ python manage.py runserver
 python manage.py createsuperuser 
 
 To login use email and password
+
+Already have a super user in database: admin@admin.com / admin
 ```
 
 
@@ -149,3 +161,6 @@ Now you have your access_token and refresh_token
 Bearer {access_token}
 ```
 
+## Copyright and license
+
+Code released under the [freeBSD License](https://github.com/Henriquejdc/VerticalLogistics/blob/master/LICENSE.md).

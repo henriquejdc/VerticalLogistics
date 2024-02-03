@@ -46,22 +46,25 @@ class OrderViewSet(BaseCollectionViewSet):
     )
 
     def response_list(self):
-        queryset = self.filter_queryset(self.get_queryset())
-        users_queryset = UserVL.objects.filter(
-            user_id__in=list(set(queryset.values_list('user', flat=True)))
-        ).order_by('user_id')
+        try:
+            queryset = self.filter_queryset(self.get_queryset())
+            users_queryset = UserVL.objects.filter(
+                user_id__in=list(set(queryset.values_list('user', flat=True)))
+            ).order_by('user_id')
 
-        page = self.paginate_queryset(users_queryset)
+            page = self.paginate_queryset(users_queryset)
 
-        if page is not None:
-            users_queryset = page
+            if page is not None:
+                users_queryset = page
 
-        users_data = UserSerializer(users_queryset, many=True).data
+            users_data = UserSerializer(users_queryset, many=True).data
 
-        for user_data in users_data:
-            user_data['orders'] = OrderSerializer(queryset.filter(user=user_data['user_id']), many=True).data
+            for user_data in users_data:
+                user_data['orders'] = OrderSerializer(queryset.filter(user=user_data['user_id']), many=True).data
 
-        return self.get_paginated_response(users_data)
+            return self.get_paginated_response(users_data)
+        except Exception as exception:
+            raise exception
 
     @swagger_auto_schema(operation_summary="Create objects from file")
     def create(self, request, *args, **kwargs):
@@ -73,11 +76,6 @@ class OrderViewSet(BaseCollectionViewSet):
             return self.response_list()
         except RestFrameworkValidationError as validation_exception:
             return api_exception_response(exception=validation_exception)
-        except IntegrityError as validation_exception:
-            return api_exception_response(
-                exception=validation_exception,
-                http_status=status.HTTP_400_BAD_REQUEST
-            )
         except Exception as exception:
             return api_exception_response(exception=exception)
 

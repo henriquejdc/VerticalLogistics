@@ -98,6 +98,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'vertical_logistics.wsgi.application'
 
 DATABASES = {
+    # If you want to use postgresql, uncomment the following lines
     'default': {
         'ENGINE': config('DB_ENGINE'),
         'NAME': config('DB_NAME'),
@@ -106,6 +107,11 @@ DATABASES = {
         'HOST': config('DB_HOST'),
         'PORT': config('DB_PORT'),
     }
+    # If you want to use sqlite3, uncomment the following lines
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    # }
 }
 
 AUTH_PASSWORD_VALIDATORS = [

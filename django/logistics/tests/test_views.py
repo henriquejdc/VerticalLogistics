@@ -7,6 +7,7 @@ from typing import List
 from django.urls import reverse
 
 # Third party imports
+from unittest.mock import patch
 from rest_framework import status
 
 # Project imports
@@ -108,6 +109,14 @@ class OrderViewSetTestCase(BaseAPITestCase):
         content = json.loads(response.content)
         self.assertDictEqual(self.response_all, content)
 
+    @patch('logistics.models.Order.objects.get_or_create')
+    def test_create_error(self, order):
+        response = self.create_data()
+
+        order.side_effect = Exception('Error')
+
+        self.assertEqual(status.HTTP_500_INTERNAL_SERVER_ERROR, response.status_code)
+
     def test_create_validation_error(self):
         response = self.client.post(
             self.url,
@@ -144,6 +153,17 @@ class OrderViewSetTestCase(BaseAPITestCase):
             'previous': None,
             'results': [self.response_retrieve]
         }, content)
+
+    @patch('logistics.models.UserVL.objects.filter')
+    def test_list_error(self, order):
+        # Create data
+        self.create_data()
+
+        order.side_effect = Exception('Error')
+
+        # Get all data
+        response = self.client.get(self.url)
+        self.assertEqual(status.HTTP_500_INTERNAL_SERVER_ERROR, response.status_code)
 
     def test_list_with_filters(self):
         # Create data
@@ -187,3 +207,19 @@ class OrderViewSetTestCase(BaseAPITestCase):
 
         content = json.loads(response.content)
         self.assertDictEqual(self.response_retrieve, content)
+
+    def test_retrieve_not_found(self):
+        # Get retrieve data
+        response = self.client.get(f'{self.url}523/')
+        self.assertEqual(status.HTTP_404_NOT_FOUND, response.status_code)
+
+    @patch('logistics.views.Response')
+    def test_retrieve_error(self, response):
+        # Create data
+        self.create_data()
+
+        response.side_effect = Exception('Error')
+
+        # Get retrieve data
+        response = self.client.get(f'{self.url}523/')
+        self.assertEqual(status.HTTP_500_INTERNAL_SERVER_ERROR, response.status_code)
