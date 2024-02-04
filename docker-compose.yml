@@ -1,20 +1,19 @@
 version: '3.7'
 
 services:
-  postgres:
-    container_name: postgres
+  postgresql:
+    container_name: postgresql
     image: postgres:14.3
     restart: always
     environment:
       - POSTGRES_USER=user_default
-      - POSTGRES_PASSWORD=defaultdatabase
+      - POSTGRES_PASSWORD=password_default
       - POSTGRES_DB=vl_database
     ports:
-      - "5432:5432"
+      - target: 5433
+        published: 5433
     volumes:
-      - ./volumes/postgres_data:/var/lib/postgresql/data/
-    networks:
-      - backend
+      - ./volumes/postgresql_data:/var/lib/postgresql/data/
 
   django:
     build:
@@ -34,18 +33,7 @@ services:
         python manage.py runserver 0.0.0.0:8000
       "
     user: root
+    env_file:
+      - .env
     environment:
-      - SECRET_KEY=1234
-      - DEBUG=True
-      - DB_NAME=vl_database
-      - DB_USER=user_default
-      - DB_PASSWORD=defaultdatabase
-      - DB_ENGINE=django.db.backends.postgresql
-      - DB_HOST=postgres
-      - DB_PORT=5432
-    networks:
-      - backend
-
-networks:
-  backend:
-      driver: bridge
+      - DB_HOST=postgresql

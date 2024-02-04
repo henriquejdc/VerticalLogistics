@@ -1,9 +1,9 @@
-### Logistics System RestAPI
+### Vertical Logistics System RestAPI
 **Abordagem:** 
 
 Utilizado o Django Rest Framework para a criação de um sistema de logística de pedidos.
 
-Criado os objetos em banco **postgreSQL**:
+Criado os objetos em banco relacional **(PostgreSQL/SQLite)**:
 
 **UserVL** 
 - user_id
@@ -33,13 +33,29 @@ Criado o app logistics e o viewset OrderViewSet (Order) onde:
 
 e por já ter um projeto base para a criação de sistemas com autenticação, base de viewset e testes.
 
-**Por que usei o postgreSQL?** Por ser um banco de dados robusto e que suporta grande quantidade de dados, 
+**Por que usei o banco relacional?** Por ser um banco de dados que facilita a busca de dados e reduz a duplicidade, 
 
 além de que é facilmente integrado ao Django e possui suporte para consultar com filtros e ordenação.
 
+**Por que usei o Docker?** Utilizei o Docker para facilitar a execução do projeto em qualquer ambiente,
 
-### Docker:
+
+### Docker PostgreSQL:
 ```
+Configure settings.py to use PostgreSQL
+
+First use:
+sudo docker-compose up --build
+
+Next uses:
+sudo docker-compose up
+```
+
+
+### Docker SQLite3:
+```
+Configure settings.py to use SQLite3
+
 First use:
 sudo docker-compose up --build django
 
@@ -65,10 +81,10 @@ cd django/
 ```
 sudo -i -u postgres
 psql
-CREATE USER user_default WITH PASSWORD 'defaultdatabase';
+CREATE USER user_default WITH PASSWORD 'password_default';
 ALTER USER user_default CREATEDB;
-CREATE DATABASE default_database;
-ALTER DATABASE default_database OWNER TO user_default;
+CREATE DATABASE vl_database;
+ALTER DATABASE vl_database OWNER TO user_default;
 CREATE EXTENSION pg_trgm;
 ```
 
@@ -112,6 +128,21 @@ python manage.py runserver
 ```
 
 
+### Create User and Access Token in API: 
+```
+Use endpoint /auth/signup/ 
+Before use /auth/jwt/create/ 
+
+Now you have your access_token and refresh_token
+```
+
+
+### Use Authenticate Token: 
+```
+Bearer {access_token}
+```
+
+
 ### Create Super User / Login: 
 ```
 python manage.py createsuperuser 
@@ -133,6 +164,7 @@ coverage run --source='./logistics' manage.py test
 coverage report
 
 coverage html
+HTML report: django/htmlcov/index.html
 ```
 
 
@@ -143,22 +175,7 @@ python manage.py makemessages --locale pt_BR
 Change to pt-br on settings:
 LANGUAGE_CODE= 'pt-BT'
 
-Obs: Necessary translate to portuguese.
-```
-
-
-### Create User and Access Token: 
-```
-Use endpoint /auth/signup/ 
-Before use /auth/jwt/create/ 
-
-Now you have your access_token and refresh_token
-```
-
-
-### Use Authenticate Token: 
-```
-Bearer {access_token}
+Obs: If necessary translate to portuguese.
 ```
 
 ## Copyright and license
