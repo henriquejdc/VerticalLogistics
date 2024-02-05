@@ -39,7 +39,7 @@ class Order(BaseModelDate):
         on_delete=models.PROTECT
     )
 
-    product = models.ManyToManyField(
+    products = models.ManyToManyField(
         "Product"
     )
 

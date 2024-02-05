@@ -46,7 +46,7 @@ class Migration(migrations.Migration):
                 ('updated_at', models.DateTimeField(auto_now=True, verbose_name='Updated at')),
                 ('order_id', models.BigIntegerField(primary_key=True, serialize=False)),
                 ('date', models.DateField()),
-                ('product', models.ManyToManyField(to='logistics.product')),
+                ('products', models.ManyToManyField(to='logistics.product')),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='logistics.uservl')),
             ],
             options={

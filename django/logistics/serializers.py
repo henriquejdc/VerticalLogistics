@@ -38,7 +38,7 @@ class OrderSerializer(serializers.ModelSerializer):
 
     total = serializers.SerializerMethodField()
 
-    products = ProductSerializer(many=True, source='product')
+    products = ProductSerializer(many=True)
 
     class Meta:
         model = Order
@@ -50,7 +50,7 @@ class OrderSerializer(serializers.ModelSerializer):
         )
 
     def get_total(self, obj) -> str:
-        return str(round(obj.product.all().aggregate(total=Sum('value'))['total'], 2))
+        return str(round(obj.products.all().aggregate(total=Sum('value'))['total'], 2))
 
 
 class OrderSerializerResponse(serializers.ModelSerializer):
