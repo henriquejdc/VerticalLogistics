@@ -42,25 +42,23 @@ além de que é facilmente integrado ao Django e possui suporte para consultar c
 
 ### Docker PostgreSQL:
 ```
-Configure settings.py to use PostgreSQL
+You need to create .env like example_env file
 
-First use:
-sudo docker-compose up --build
-
-Next uses:
-sudo docker-compose up
+sudo docker-compose -f docker-compose-postgresql.yml up
 ```
 
 
 ### Docker SQLite3:
 ```
-Configure settings.py to use SQLite3
+sudo docker-compose -f docker-compose-sqlite.yml up
+```
 
-First use:
-sudo docker-compose up --build django
 
-Next uses:
-sudo docker-compose up django
+### Configurations .env: 
+```
+Copy .env.example to .env
+Set your environment variables on .env file
+Use variables with the same names as you use when creating the database
 ```
 
 
@@ -86,14 +84,6 @@ ALTER USER user_default CREATEDB;
 CREATE DATABASE vl_database;
 ALTER DATABASE vl_database OWNER TO user_default;
 CREATE EXTENSION pg_trgm;
-```
-
-
-### Configurations .env: 
-```
-Copy .env.example to .env
-Set your environment variables on .env file
-Use variables with the same names as you use when creating the database
 ```
 
 

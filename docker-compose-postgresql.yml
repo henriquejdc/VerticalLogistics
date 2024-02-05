@@ -3,8 +3,7 @@ version: '3.7'
 services:
   postgresql:
     container_name: postgresql
-    image: postgres:14.3
-    restart: always
+    image: postgres:14.4-alpine
     environment:
       - POSTGRES_USER=user_default
       - POSTGRES_PASSWORD=password_default
@@ -18,6 +17,7 @@ services:
   django:
     build:
       context: .
+      dockerfile: Dockerfile-postgresql
     ports:
       - "8000:8000"
     volumes:

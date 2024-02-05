@@ -1,11 +1,9 @@
 # Django imports
 import django_filters.rest_framework
-from django.db import IntegrityError
 from django.http.response import Http404
 
 # Third party imports
 from drf_yasg.utils import swagger_auto_schema
-from rest_framework import status
 from rest_framework.exceptions import ValidationError as RestFrameworkValidationError
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -18,7 +16,7 @@ from shared.views import BaseCollectionViewSet
 from logistics.filters import OrderFilter
 from logistics.models import Order, UserVL
 from logistics.serializers import FileSerializer, UserSerializer, OrderSerializer, OrderSerializerResponse
-from logistics.services import create_datadb
+from logistics.services import CreateDataDB
 
 
 class OrderViewSet(BaseCollectionViewSet):
@@ -72,7 +70,7 @@ class OrderViewSet(BaseCollectionViewSet):
             serializer = self.get_serializer(data=request.data)
             serializer.is_valid(raise_exception=True)
             file = request.FILES['file']
-            create_datadb(file)
+            CreateDataDB(file).execute_creation()
             return self.response_list()
         except RestFrameworkValidationError as validation_exception:
             return api_exception_response(exception=validation_exception)
