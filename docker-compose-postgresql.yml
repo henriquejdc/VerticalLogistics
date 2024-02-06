@@ -5,14 +5,16 @@ services:
     container_name: postgresql
     image: postgres:14.4-alpine
     environment:
-      - POSTGRES_USER=user_default
-      - POSTGRES_PASSWORD=password_default
-      - POSTGRES_DB=vl_database
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${password_default}
+      - POSTGRES_DB=${DB_NAME}
     ports:
       - target: 5433
         published: 5433
     volumes:
       - ./volumes/postgresql_data:/var/lib/postgresql/data/
+    env_file:
+      - .env
 
   django:
     build:
