@@ -17,15 +17,24 @@ Criado os objetos em banco relacional **(PostgreSQL/SQLite)**:
 - order_id
 - date
 - user (UserVL)
-- product (Product)
+- products (Product)
 
 O total de cada pedido é calculado a partir da soma dos valores dos produtos.
 
 Criado o app logistics e o viewset OrderViewSet (Order) onde:
 
-- POST /v1/orders-by-user/ que recebe o arquivo .txt criando os objetos em banco
-- GET /v1/orders-by-user/ que retorna os pedidos agrupados por usuário
-- GET /v1/orders-by-user/{order_id}/ que retorna os pedido agrupado pelo usuário
+- **POST /v1/orders-by-user/** que recebe o arquivo .txt criando os objetos em banco
+- **GET /v1/orders-by-user/** que retorna os pedidos agrupados por usuário
+    **Filtros:**
+
+      order_id: Identificador do pedido (Int)
+    
+      date__gte: Data inicial (%Y-%m-%d)
+    
+      date__lte: Data final (%Y-%m-%d)
+
+
+- **GET /v1/orders-by-user/{order_id}/** que retorna o pedido agrupado pelo usuário
 
 **Por que desta abordagem?**
 
